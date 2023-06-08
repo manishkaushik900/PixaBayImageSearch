@@ -6,4 +6,8 @@ import com.pixabay.imagesearch.data.remote.models.PixabayResponse
 interface ImageSearchRepository {
 
     suspend fun getImageSearchData(query:String): Resource<PixabayResponse>
+
+    suspend fun getImageSearchDataFlow(query:String): PixabayResponse
+
+
 }

@@ -15,9 +15,15 @@ class ImageSearchUseCase @Inject constructor(
     private val repository: ImageSearchRepository
 ) {
 
-    fun execute(query: String): Flow<Resource<PixabayResponse>> = flow{
-       emit(repository.getImageSearchData(query))
+//    fun execute(query: String): Flow<Resource<PixabayResponse>> = flow{
+//       emit(repository.getImageSearchData(query))
+//    }.flowOn(Dispatchers.IO)
+
+    fun execute(query: String): Flow<PixabayResponse> = flow{
+        emit(repository.getImageSearchDataFlow(query))
     }.flowOn(Dispatchers.IO)
+
+
 
 //    suspend fun execute(query: String): Resource<PixabayResponse> {
 //        return withContext(Dispatchers.IO) {

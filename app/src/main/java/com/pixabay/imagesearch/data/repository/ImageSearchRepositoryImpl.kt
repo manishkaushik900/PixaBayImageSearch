@@ -27,4 +27,22 @@ class ImageSearchRepositoryImpl @Inject constructor(
         }
 
     }
+
+
+    override suspend fun getImageSearchDataFlow(query:String): PixabayResponse {
+        return try {
+            val result = networkDataSource.callImageSearchApi(query = query)
+
+            if (result.hits?.isNotEmpty() == true) {
+                result
+            } else {
+               throw IllegalStateException("Empty product list")
+            }
+
+        } catch (e: Exception) {
+            throw e
+
+        }
+
+    }
 }

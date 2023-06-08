@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 data class PixabayResponse(
 
 	@Json(name="hits")
-	val hits: List<ImageItem>? = listOf(),
+	val hits: List<ImageItem> = listOf(),
 
 	@Json(name="total")
 	val total: Int? = null,

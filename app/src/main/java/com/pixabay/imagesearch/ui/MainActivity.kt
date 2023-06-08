@@ -103,7 +103,13 @@ class MainActivity : ComponentActivity() {
         ) {
 
             if (searchState.isLoading) {
-                CircularProgressIndicator()
+//                CircularProgressIndicator()
+                Column {
+                    repeat(7) {
+                        AnimatedShimmer()
+                    }
+                }
+
             } else {
 
                 Column(modifier = modifier) {

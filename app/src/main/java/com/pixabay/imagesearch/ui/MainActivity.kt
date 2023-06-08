@@ -1,10 +1,11 @@
 package com.pixabay.imagesearch.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -39,32 +41,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pixabay.imagesearch.R
 import com.pixabay.imagesearch.data.remote.models.ImageItem
-import com.pixabay.imagesearch.data.remote.models.ImageModel
 import com.pixabay.imagesearch.ui.viewmodels.ImageSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: ImageSearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        viewModel.getAlbumList("brands")
 
         setContent {
             MaterialTheme {
-                // A surface container using the 'background' color from the theme
                 MainScreen()
             }
         }
@@ -82,7 +80,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MainScreen() {
 
-        val viewModel: ImageSearchViewModel = viewModel
+        val viewModel: ImageSearchViewModel = viewModel()
 
         ScreenContent(
             modifier = Modifier.fillMaxSize(),
@@ -111,7 +109,9 @@ class MainActivity : ComponentActivity() {
                 Column(modifier = modifier) {
 
                     SearchInput(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
                         query = searchState.query,
                         onSearchChange = { queryChanged ->
                             handleEvent(ImageSearchEvent.QueryChanged(queryChanged))
@@ -208,17 +208,19 @@ class MainActivity : ComponentActivity() {
     private fun ImageCard(
         item: ImageItem, modifier: Modifier = Modifier
     ) {
+        val context = LocalContext.current
         Card(modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 4.dp, vertical = 4.dp),
             elevation = CardDefaults.cardElevation(8.dp),
             shape = RoundedCornerShape(8.dp),
-            onClick = { }) {
+            onClick = {
+                Toast.makeText(context, item.user, Toast.LENGTH_SHORT).show()
+            }) {
             Box(modifier = Modifier.height(200.dp)) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current).data(item.largeImageURL)
                         .crossfade(true).build(),
-                    placeholder = painterResource(R.drawable.sample),
                     contentDescription = item.user,
                     contentScale = ContentScale.Crop,
                 )
@@ -241,9 +243,12 @@ class MainActivity : ComponentActivity() {
                     contentAlignment = Alignment.BottomStart
                 ) {
 
-                    Column(modifier = Modifier.fillMaxSize()) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Text(
-                            text = item.user?:"",
+                            text = item.user ?: "",
                             style = TextStyle(color = Color.White, fontSize = 16.sp)
                         )
 //                        Text(text = "SemicolonSpace 2")
@@ -265,7 +270,9 @@ class MainActivity : ComponentActivity() {
         onSearchChange: (query: String) -> Unit,
         onSearchClicked: () -> Unit
     ) {
-        TextField(modifier = modifier.testTag(""),
+        TextField(modifier = modifier
+            .testTag("")
+            .background(MaterialTheme.colorScheme.background),
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Search,
             ), keyboardActions = KeyboardActions(onSearch = {
@@ -280,6 +287,16 @@ class MainActivity : ComponentActivity() {
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search, contentDescription = null
+                )
+            },
+            trailingIcon = {
+                Icon(
+                    modifier = Modifier.clickable(
+                        onClickLabel = stringResource(id = R.string.cd_clear_search)
+                    ) {
+                        onSearchChange("")
+                    },
+                    imageVector = Icons.Default.Cancel, contentDescription = null
                 )
             }, singleLine = true
         )

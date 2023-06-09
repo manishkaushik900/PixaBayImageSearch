@@ -15,7 +15,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MaterialTheme {
-                SearchScreen()
+//                SearchScreen()
+                NavigationBuilder()
             }
         }
     }

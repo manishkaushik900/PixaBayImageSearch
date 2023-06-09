@@ -1,4 +1,3 @@
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -41,7 +40,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pixabay.imagesearch.R
@@ -55,20 +54,22 @@ import com.pixabay.imagesearch.ui.viewmodels.ImageSearchViewModel
 @Composable
 fun SearchScreenPreview() {
     MaterialTheme {
-        SearchScreen()
+//        SearchScreen(navController.navigate(AppScreens.ImageDetail.name))
     }
 
 }
 
 @Composable
-fun SearchScreen() {
+fun SearchScreen( onNextButtonClicked: (item:ImageItem) -> Unit) {
 
-    val viewModel: ImageSearchViewModel = viewModel()
+//    val viewModel: ImageSearchViewModel = viewModel()
+    val viewModel: ImageSearchViewModel = hiltViewModel()
 
     ScreenContent(
         modifier = Modifier.fillMaxSize(),
         handleEvent = viewModel::handleEvent,
-        searchState = viewModel.uiState.collectAsState().value
+        searchState = viewModel.uiState.collectAsState().value,
+        onNextScreen = onNextButtonClicked
     )
 
 }
@@ -77,7 +78,8 @@ fun SearchScreen() {
 fun ScreenContent(
     modifier: Modifier = Modifier,
     searchState: ImageSearchState,
-    handleEvent: (event: ImageSearchEvent) -> Unit
+    handleEvent: (event: ImageSearchEvent) -> Unit,
+    onNextScreen: (item: ImageItem) -> Unit
 ) {
 
     Surface(
@@ -100,7 +102,10 @@ fun ScreenContent(
                 SearchInput(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
+                        .padding(
+                            start = 16.dp,
+                            end = 16.dp, top = 8.dp, bottom = 4.dp
+                        ),
                     query = searchState.query,
                     onSearchChange = { queryChanged ->
                         handleEvent(ImageSearchEvent.QueryChanged(queryChanged))
@@ -114,7 +119,7 @@ fun ScreenContent(
                     }
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 LazyVerticalGrid(
                     // on below line we are setting the
@@ -127,7 +132,8 @@ fun ScreenContent(
                     items(searchState.success.size) {
                         ImageCard(
                             modifier = Modifier.fillMaxWidth(),
-                            item = searchState.success[it]
+                            item = searchState.success[it],
+                            onNextScreen =onNextScreen
                         )
                     }
                 }
@@ -195,7 +201,7 @@ fun AuthenticationErrorDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ImageCard(
-    item: ImageItem, modifier: Modifier = Modifier
+    item: ImageItem, modifier: Modifier = Modifier, onNextScreen: (item: ImageItem) -> Unit
 ) {
     val context = LocalContext.current
     Card(modifier = modifier
@@ -204,7 +210,8 @@ private fun ImageCard(
         elevation = CardDefaults.cardElevation(8.dp),
         shape = RoundedCornerShape(8.dp),
         onClick = {
-            Toast.makeText(context, item.user, Toast.LENGTH_SHORT).show()
+            onNextScreen(item)
+//            Toast.makeText(context, item.user, Toast.LENGTH_SHORT).show()
         }) {
         Box(modifier = Modifier.height(200.dp)) {
             AsyncImage(

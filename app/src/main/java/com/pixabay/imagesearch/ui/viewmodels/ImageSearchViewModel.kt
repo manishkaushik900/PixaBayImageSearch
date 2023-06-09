@@ -9,7 +9,14 @@ import com.pixabay.imagesearch.ui.ImageSearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -23,6 +30,31 @@ class ImageSearchViewModel @Inject constructor(
 //    val uiState: StateFlow<AlbumUiState> = _uiState.asStateFlow()
 
     val uiState = MutableStateFlow(ImageSearchState())
+
+    private val _searchText = MutableStateFlow(uiState.value.query)
+    val searchText = _searchText.asStateFlow()
+
+  /*  val searchResult = searchText
+        .debounce(1000L)
+        .filter {query->
+            return@filter query.isNotEmpty()
+        }
+        .distinctUntilChanged()
+        .flatMapLatest {query->
+            useCase.execute(query?:"").catch { error ->
+
+                withContext(Dispatchers.Main) {
+                    uiState.value = uiState.value.copy(
+                        isLoading = false,
+                        error = error.message.toString()
+                    )
+                }
+            }
+        }
+        .flowOn(Dispatchers.Default)*/
+
+
+
 
     private fun updateQuery(query: String) {
 

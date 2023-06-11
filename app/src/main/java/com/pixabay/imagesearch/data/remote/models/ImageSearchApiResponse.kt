@@ -1,6 +1,8 @@
 package com.pixabay.imagesearch.data.remote.models
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
 data class PixabayResponse(
 
@@ -14,6 +16,7 @@ data class PixabayResponse(
 	val totalHits: Int? = null
 )
 
+@Parcelize
 data class ImageItem(
 
 	@Json(name="webformatHeight")
@@ -81,7 +84,7 @@ data class ImageItem(
 
 	@Json(name="likes")
 	val likes: Int? = null
-)
+):Parcelable
 
 data class ImageModel(
 	val imageId: Long = -1,

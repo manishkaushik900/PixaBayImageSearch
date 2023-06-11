@@ -63,7 +63,7 @@ fun SearchScreenPreview() {
 fun SearchScreen( onNextButtonClicked: (item:ImageItem) -> Unit) {
 
 //    val viewModel: ImageSearchViewModel = viewModel()
-    val viewModel: ImageSearchViewModel = hiltViewModel()
+     val viewModel: ImageSearchViewModel = hiltViewModel()
 
     ScreenContent(
         modifier = Modifier.fillMaxSize(),

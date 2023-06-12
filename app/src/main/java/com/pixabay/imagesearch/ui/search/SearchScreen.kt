@@ -60,10 +60,9 @@ fun SearchScreenPreview() {
 }
 
 @Composable
-fun SearchScreen( onNextButtonClicked: (item:ImageItem) -> Unit) {
+fun SearchScreen(onNextButtonClicked: (item: ImageItem) -> Unit) {
 
-//    val viewModel: ImageSearchViewModel = viewModel()
-     val viewModel: ImageSearchViewModel = hiltViewModel()
+    val viewModel: ImageSearchViewModel = hiltViewModel()
 
     ScreenContent(
         modifier = Modifier.fillMaxSize(),
@@ -71,7 +70,6 @@ fun SearchScreen( onNextButtonClicked: (item:ImageItem) -> Unit) {
         searchState = viewModel.uiState.collectAsState().value,
         onNextScreen = onNextButtonClicked
     )
-
 }
 
 @Composable
@@ -88,7 +86,6 @@ fun ScreenContent(
     ) {
 
         if (searchState.isLoading) {
-//                CircularProgressIndicator()
             Column {
                 repeat(7) {
                     AnimatedShimmer()
@@ -133,7 +130,7 @@ fun ScreenContent(
                         ImageCard(
                             modifier = Modifier.fillMaxWidth(),
                             item = searchState.success[it],
-                            onNextScreen =onNextScreen
+                            onNextScreen = onNextScreen
                         )
                     }
                 }

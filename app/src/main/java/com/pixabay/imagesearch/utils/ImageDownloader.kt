@@ -12,12 +12,12 @@ class ImageDownloader(private val context: Context) : Downloader {
 
     override fun downloadFile(url: String): Long {
         val request = DownloadManager.Request(Uri.parse(url))
-            .setMimeType("*/*")
+            .setMimeType("image/jpeg")
             .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI and
             DownloadManager.Request.NETWORK_MOBILE)
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setTitle("image.jpeg Downlaoding")
-            .setDescription("WAit...")
+            .setTitle("Image Downlaoding")
+            .setDescription("Wait...")
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "image.jpeg")
 
         return downloadManager.enqueue(request)

@@ -1,7 +1,6 @@
-package com.pixabay.imagesearch.ui
+package com.pixabay.imagesearch.ui.commons
 
 import com.pixabay.imagesearch.data.remote.models.ImageItem
-import com.pixabay.imagesearch.data.remote.models.ImageModel
 
 
 data class ImageSearchState(
@@ -9,7 +8,8 @@ data class ImageSearchState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val success: List<ImageItem> = emptyList(),
-    val query: String? = null,
+    val query: String? = null/*,
+    val currentImageNode: ImageItem? = null*/
 )
 
 sealed class ImageSearchEvent {
@@ -20,5 +20,8 @@ sealed class ImageSearchEvent {
 
     class QueryChanged(val query: String) :
         ImageSearchEvent()
+
+   /* class UpdateCurrentImageNode(val imageItem: ImageItem) :
+        ImageSearchEvent()*/
 
 }

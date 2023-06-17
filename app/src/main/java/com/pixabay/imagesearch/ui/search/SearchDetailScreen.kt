@@ -28,14 +28,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.pixabay.imagesearch.R
 import com.pixabay.imagesearch.data.remote.models.ImageItem
-import com.pixabay.imagesearch.ui.dummyImageItem
+import com.pixabay.imagesearch.ui.commons.dummyImageItem
 import com.pixabay.imagesearch.utils.ImageDownloader
 
 @Preview(showBackground = true)
@@ -53,10 +55,15 @@ fun SearchScreenPreview() {
 @Composable
 fun SearchImageDetails(result: ImageItem, onBackClicked: () -> Unit) {
 
+    val downloadManager = ImageDownloader(LocalContext.current)
+
     DetailContent(
         modifier = Modifier.fillMaxSize(),
         item = result,
-        onBackClicked= onBackClicked
+        onBackClicked = onBackClicked,
+        onDownloadClicked = { imageUrl ->
+            downloadManager.downloadFile(imageUrl)
+        }
     )
 }
 
@@ -64,7 +71,8 @@ fun SearchImageDetails(result: ImageItem, onBackClicked: () -> Unit) {
 fun DetailContent(
     modifier: Modifier = Modifier,
     item: ImageItem,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    onDownloadClicked: (String) -> Unit
 ) {
 
     Surface(modifier = modifier) {
@@ -82,7 +90,9 @@ fun DetailContent(
             Modifier
                 .fillMaxSize()
         ) {
-            BackButton(onBackClicked = onBackClicked)
+            BackButton(
+                onBackClicked = onBackClicked
+            )
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -90,7 +100,9 @@ fun DetailContent(
             DetailBottomCard(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color), item
+                    .background(color),
+                item = item,
+                onDownloadClicked = onDownloadClicked
             )
         }
     }
@@ -99,7 +111,9 @@ fun DetailContent(
 }
 
 @Composable
-fun BackButton(modifier: Modifier = Modifier, onBackClicked: () -> Unit) {
+fun BackButton(
+    modifier: Modifier = Modifier, onBackClicked: () -> Unit
+) {
     IconButton(
         modifier = modifier,
         onClick = { onBackClicked() }) {
@@ -116,32 +130,27 @@ fun BackButton(modifier: Modifier = Modifier, onBackClicked: () -> Unit) {
 @Composable
 fun DetailBottomCard(
     modifier: Modifier = Modifier,
-    item: ImageItem
+    item: ImageItem,
+    onDownloadClicked: (String) -> Unit
 ) {
-
-    val downloadManager = ImageDownloader(LocalContext.current)
 
 
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
+
         BadgedBox(
             modifier = Modifier.padding(8.dp),
             badge = {
                 Badge {
                     val badgeNumber = item.likes.toString()
-                    Text(
-                        badgeNumber,
-                        modifier = Modifier.semantics {
-                            contentDescription = "$badgeNumber new notifications"
-                        }
-                    )
+                    Text(badgeNumber)
                 }
             }) {
             Icon(
                 Icons.Outlined.Favorite,
-                contentDescription = "Favorite",
+                contentDescription = stringResource(R.string.label_image_likes),
                 tint = Color.White
             )
         }
@@ -195,12 +204,13 @@ fun DetailBottomCard(
         IconButton(
             modifier = Modifier.padding(8.dp),
             onClick = {
-                downloadManager.downloadFile(item.largeImageURL.toString())
-                 }
+                onDownloadClicked(item.largeImageURL.toString())
+
+            }
         ) {
             Icon(
                 Icons.Filled.Download,
-                contentDescription = "Download",
+                contentDescription = stringResource(R.string.label_download_image),
                 tint = Color.White
             )
         }

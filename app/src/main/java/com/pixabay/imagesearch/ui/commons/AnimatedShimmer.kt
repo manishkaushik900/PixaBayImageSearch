@@ -1,4 +1,4 @@
-package com.pixabay.imagesearch.ui
+package com.pixabay.imagesearch.ui.commons
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.*

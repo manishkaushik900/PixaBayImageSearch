@@ -3,9 +3,8 @@ package com.pixabay.imagesearch.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.manish.dkb.domain.usecases.ImageSearchUseCase
-import com.pixabay.imagesearch.data.remote.models.ImageItem
-import com.pixabay.imagesearch.ui.ImageSearchEvent
-import com.pixabay.imagesearch.ui.ImageSearchState
+import com.pixabay.imagesearch.ui.commons.ImageSearchEvent
+import com.pixabay.imagesearch.ui.commons.ImageSearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,17 +23,11 @@ class ImageSearchViewModel @Inject constructor(
 
     val uiState = MutableStateFlow(ImageSearchState())
 
-
-    public fun SaveImage(){
-
-
-    }
-
     private fun updateQuery(query: String) {
 
         if (query.isEmpty()) {
             uiState.value = uiState.value.copy(
-                success = emptyList<ImageItem>(),
+                success = emptyList(),
                 query = query
             )
         } else {
@@ -43,6 +36,12 @@ class ImageSearchViewModel @Inject constructor(
             )
         }
     }
+
+    /*private fun updateCurrentSelectedImage(imageItem: ImageItem) {
+        uiState.value = uiState.value.copy(
+            currentImageNode = imageItem
+        )
+    }*/
 
 
     fun handleEvent(imageSearchEvent: ImageSearchEvent) {
@@ -58,6 +57,10 @@ class ImageSearchViewModel @Inject constructor(
             is ImageSearchEvent.QueryChanged -> {
                 updateQuery(imageSearchEvent.query)
             }
+
+           /* is ImageSearchEvent.UpdateCurrentImageNode -> {
+                updateCurrentSelectedImage(imageSearchEvent.imageItem)
+            }*/
         }
     }
 

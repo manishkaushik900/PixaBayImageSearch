@@ -4,4 +4,7 @@
     <string name="error_action">OK</string>
     <string name="error_title">Whoop\n</string>
     <string name="cd_clear_search">Clear Search Text</string>
+    <string name="label_download_image">Download Image</string>
+    <string name="label_image_likes">%s, Image Likes</string>
+    %s, satisfied
 </resources>

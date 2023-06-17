@@ -45,16 +45,16 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pixabay.imagesearch.R
 import com.pixabay.imagesearch.data.remote.models.ImageItem
-import com.pixabay.imagesearch.ui.AnimatedShimmer
-import com.pixabay.imagesearch.ui.ImageSearchEvent
-import com.pixabay.imagesearch.ui.ImageSearchState
+import com.pixabay.imagesearch.ui.commons.AnimatedShimmer
+import com.pixabay.imagesearch.ui.commons.ImageSearchEvent
+import com.pixabay.imagesearch.ui.commons.ImageSearchState
 import com.pixabay.imagesearch.ui.viewmodels.ImageSearchViewModel
 
 @Preview(showBackground = true)
 @Composable
 fun SearchScreenPreview() {
     MaterialTheme {
-//        SearchScreen(navController.navigate(AppScreens.ImageDetail.name))
+        SearchScreen(onNextButtonClicked = {})
     }
 
 }
@@ -69,6 +69,10 @@ fun SearchScreen(onNextButtonClicked: (item: ImageItem) -> Unit) {
         handleEvent = viewModel::handleEvent,
         searchState = viewModel.uiState.collectAsState().value,
         onNextScreen = onNextButtonClicked
+        /*{
+            viewModel.handleEvent(ImageSearchEvent.UpdateCurrentImageNode(it))
+            onNextButtonClicked(it)
+        }*/
     )
 }
 
@@ -200,7 +204,7 @@ fun AuthenticationErrorDialog(
 private fun ImageCard(
     item: ImageItem, modifier: Modifier = Modifier, onNextScreen: (item: ImageItem) -> Unit
 ) {
-    val context = LocalContext.current
+//    val context = LocalContext.current
     Card(modifier = modifier
         .fillMaxWidth()
         .padding(horizontal = 4.dp, vertical = 4.dp),

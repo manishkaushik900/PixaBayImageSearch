@@ -1,4 +1,4 @@
-package com.pixabay.imagesearch.ui
+package com.pixabay.imagesearch.ui.commons
 
 import SearchScreen
 import androidx.compose.runtime.Composable
@@ -29,6 +29,18 @@ fun NavigationBuilder(navController: NavHostController) {
             result?.let { it1 -> SearchImageDetails(it1){
                 navController.navigateUp()
             } }
+           /*
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(AppScreens.Start.name)
+            }
+           val parentViewModel = hiltViewModel<ImageSearchViewModel>(parentEntry)
+           parentViewModel.uiState.collectAsState().value.currentImageNode?.let {
+                SearchImageDetails(it){
+                    navController.navigateUp()
+                }
+            }*/
+
+
         }
 
     }
@@ -36,7 +48,7 @@ fun NavigationBuilder(navController: NavHostController) {
 }
 
 
-enum class AppScreens() {
+enum class AppScreens {
     Start,
     ImageDetail
 }

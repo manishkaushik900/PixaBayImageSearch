@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.pixabay.imagesearch.data.remote.models.ImageItem
-import com.pixabay.imagesearch.ui.search.SearchImageDetails
+import com.pixabay.imagesearch.data.remote.ImageItem
+import com.pixabay.imagesearch.ui.searchImage.SearchImageDetails
 
 
 @Composable
@@ -14,7 +14,7 @@ fun NavigationBuilder(navController: NavHostController) {
 
     NavHost(navController = navController, startDestination = AppScreens.Start.name) {
         composable(AppScreens.Start.name) {
-            SearchScreen(onNextButtonClicked = { imageItem ->
+            SearchScreen(onImageClicked = { imageItem ->
                 navController.currentBackStackEntry?.savedStateHandle?.set(
                     key = "imageItem",
                     value = imageItem

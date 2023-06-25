@@ -1,4 +1,4 @@
-package com.pixabay.imagesearch.ui
+package com.pixabay.imagesearch
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

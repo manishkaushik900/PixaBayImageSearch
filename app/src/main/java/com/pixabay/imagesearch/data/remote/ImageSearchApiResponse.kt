@@ -1,4 +1,4 @@
-package com.pixabay.imagesearch.data.remote.models
+package com.pixabay.imagesearch.data.remote
 
 import android.os.Parcelable
 import com.squareup.moshi.Json
@@ -6,13 +6,13 @@ import kotlinx.android.parcel.Parcelize
 
 data class PixabayResponse(
 
-	@Json(name="hits")
+    @Json(name="hits")
 	val hits: List<ImageItem> = listOf(),
 
-	@Json(name="total")
+    @Json(name="total")
 	val total: Int? = null,
 
-	@Json(name="totalHits")
+    @Json(name="totalHits")
 	val totalHits: Int? = null
 )
 
@@ -86,7 +86,7 @@ data class ImageItem(
 	val likes: Int? = null
 ):Parcelable
 
-data class ImageModel(
+/*data class ImageModel(
 	val imageId: Long = -1,
 	val userName: String,
 	val url: String,
@@ -112,4 +112,4 @@ fun ImageItem.toImageModel() = ImageModel(
 	largeImageURL = largeImageURL,
 	previewURL = previewURL,
 	userImageURL= userImageURL
-)
+)*/

@@ -1,4 +1,4 @@
-package com.pixabay.imagesearch.utils
+package com.pixabay.imagesearch.ui.commons
 
 import android.content.Context
 import android.net.ConnectivityManager

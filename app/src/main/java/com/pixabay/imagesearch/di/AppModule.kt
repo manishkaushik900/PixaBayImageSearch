@@ -1,12 +1,12 @@
 package com.pixabay.imagesearch.di
 
 import android.content.Context
-import com.manish.dkb.data.remote.ApiService
+import com.pixabay.imagesearch.data.remote.ApiService
 import com.pixabay.imagesearch.BuildConfig
-import com.pixabay.imagesearch.data.source.NetworkDataSource
-import com.pixabay.imagesearch.ui.GlobalApplication
-import com.pixabay.imagesearch.utils.Network
-import com.pixabay.imagesearch.utils.NetworkConnectivity
+import com.pixabay.imagesearch.data.repository.NetworkDataSource
+import com.pixabay.imagesearch.GlobalApplication
+import com.pixabay.imagesearch.ui.commons.Network
+import com.pixabay.imagesearch.ui.commons.NetworkConnectivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

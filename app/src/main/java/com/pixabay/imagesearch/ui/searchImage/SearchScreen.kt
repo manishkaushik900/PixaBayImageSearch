@@ -44,44 +44,32 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pixabay.imagesearch.R
-import com.pixabay.imagesearch.data.remote.models.ImageItem
+import com.pixabay.imagesearch.data.remote.ImageItem
 import com.pixabay.imagesearch.ui.commons.AnimatedShimmer
-import com.pixabay.imagesearch.ui.commons.ImageSearchEvent
-import com.pixabay.imagesearch.ui.commons.ImageSearchState
-import com.pixabay.imagesearch.ui.viewmodels.ImageSearchViewModel
+import com.pixabay.imagesearch.ui.searchImage.SearchImageEvent
+import com.pixabay.imagesearch.ui.searchImage.SearchImageState
+import com.pixabay.imagesearch.ui.searchImage.ImageSearchViewModel
 
-@Preview(showBackground = true)
-@Composable
-fun SearchScreenPreview() {
-    MaterialTheme {
-        SearchScreen(onNextButtonClicked = {})
-    }
 
-}
 
 @Composable
-fun SearchScreen(onNextButtonClicked: (item: ImageItem) -> Unit) {
-
+fun SearchScreen(onImageClicked: (item: ImageItem) -> Unit) {
     val viewModel: ImageSearchViewModel = hiltViewModel()
 
-    ScreenContent(
+    ScreenScreenContent(
         modifier = Modifier.fillMaxSize(),
         handleEvent = viewModel::handleEvent,
-        searchState = viewModel.uiState.collectAsState().value,
-        onNextScreen = onNextButtonClicked
-        /*{
-            viewModel.handleEvent(ImageSearchEvent.UpdateCurrentImageNode(it))
-            onNextButtonClicked(it)
-        }*/
+        uiState = viewModel.uiState.collectAsState().value,
+        onImageItemClicked = onImageClicked
     )
 }
 
 @Composable
-fun ScreenContent(
+fun ScreenScreenContent(
     modifier: Modifier = Modifier,
-    searchState: ImageSearchState,
-    handleEvent: (event: ImageSearchEvent) -> Unit,
-    onNextScreen: (item: ImageItem) -> Unit
+    uiState: SearchImageState,
+    handleEvent: (event: SearchImageEvent) -> Unit,
+    onImageItemClicked: (item: ImageItem) -> Unit
 ) {
 
     Surface(
@@ -89,7 +77,7 @@ fun ScreenContent(
         color = MaterialTheme.colorScheme.background
     ) {
 
-        if (searchState.isLoading) {
+        if (uiState.isLoading) {
             Column {
                 repeat(7) {
                     AnimatedShimmer()
@@ -107,14 +95,14 @@ fun ScreenContent(
                             start = 16.dp,
                             end = 16.dp, top = 8.dp, bottom = 4.dp
                         ),
-                    query = searchState.query,
+                    query = uiState.query,
                     onSearchChange = { queryChanged ->
-                        handleEvent(ImageSearchEvent.QueryChanged(queryChanged))
+                        handleEvent(SearchImageEvent.QueryChanged(queryChanged))
                     },
                     onSearchClicked = {
                         handleEvent(
-                            ImageSearchEvent.InitiateSearch(
-                                searchState.query ?: ""
+                            SearchImageEvent.InitiateSearch(
+                                uiState.query ?: ""
                             )
                         )
                     }
@@ -130,11 +118,11 @@ fun ScreenContent(
                     // from all sides to our grid view.
                     modifier = Modifier.padding(10.dp)
                 ) {
-                    items(searchState.success.size) {
+                    items(uiState.success.size) {
                         ImageCard(
                             modifier = Modifier.fillMaxWidth(),
-                            item = searchState.success[it],
-                            onNextScreen = onNextScreen
+                            item = uiState.success[it],
+                            onNextScreen = onImageItemClicked
                         )
                     }
                 }
@@ -142,12 +130,12 @@ fun ScreenContent(
             }
 
 
-            searchState.error?.let { error ->
+            uiState.error?.let { error ->
                 AuthenticationErrorDialog(
                     error = error,
                     dismissError = {
                         handleEvent(
-                            ImageSearchEvent.ErrorDismissed
+                            SearchImageEvent.ErrorDismissed
                         )
                     }
                 )
@@ -297,4 +285,12 @@ fun SearchInput(
             )
         }, singleLine = true
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SearchScreenPreview() {
+    MaterialTheme {
+        SearchScreen(onImageClicked = {})
+    }
 }

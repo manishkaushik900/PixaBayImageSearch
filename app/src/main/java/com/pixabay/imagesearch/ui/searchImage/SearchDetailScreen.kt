@@ -1,4 +1,4 @@
-package com.pixabay.imagesearch.ui.search
+package com.pixabay.imagesearch.ui.searchImage
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -36,25 +36,14 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pixabay.imagesearch.R
-import com.pixabay.imagesearch.data.remote.models.ImageItem
+import com.pixabay.imagesearch.data.remote.ImageItem
 import com.pixabay.imagesearch.ui.commons.dummyImageItem
-import com.pixabay.imagesearch.utils.ImageDownloader
+import com.pixabay.imagesearch.ui.commons.ImageDownloader
 
-@Preview(showBackground = true)
-@Composable
-fun SearchScreenPreview() {
-    MaterialTheme {
-        Surface {
-            SearchImageDetails(dummyImageItem) {}
-        }
 
-    }
-
-}
 
 @Composable
 fun SearchImageDetails(result: ImageItem, onBackClicked: () -> Unit) {
-
     val downloadManager = ImageDownloader(LocalContext.current)
 
     DetailContent(
@@ -218,6 +207,16 @@ fun DetailBottomCard(
 
     }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SearchScreenPreview() {
+    MaterialTheme {
+        Surface {
+            SearchImageDetails(dummyImageItem) {}
+        }
+    }
 }
 
 

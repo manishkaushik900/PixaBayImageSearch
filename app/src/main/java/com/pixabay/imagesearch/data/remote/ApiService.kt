@@ -1,6 +1,5 @@
-package com.manish.dkb.data.remote
+package com.pixabay.imagesearch.data.remote
 
-import com.pixabay.imagesearch.data.remote.models.PixabayResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -8,7 +7,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET(".")
-    suspend fun searchImages(
+    suspend fun getSearchResponse(
         @Query("q") query: String,
         @Query("image_type") imageType: String = "photo",
         @Query("pretty") pretty: Boolean = true

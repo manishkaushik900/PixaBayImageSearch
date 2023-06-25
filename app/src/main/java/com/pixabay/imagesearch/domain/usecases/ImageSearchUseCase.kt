@@ -1,6 +1,7 @@
 package com.pixabay.imagesearch.domain.usecases
 
-import com.pixabay.imagesearch.data.remote.ImageItem
+import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
+import com.pixabay.imagesearch.domain.mappers.toImageModel
 import com.pixabay.imagesearch.domain.repositories.ImageSearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,8 +14,11 @@ class ImageSearchUseCase @Inject constructor(
     private val repository: ImageSearchRepository
 ) {
 
-     fun execute(query: String): Flow<List<ImageItem>> = flow{
-        emit(repository.fetchSearchData(query))
+    fun execute(query: String): Flow<List<MappedImageItemModel>> = flow {
+
+        emit(repository.fetchSearchData(query).map {
+            it.toImageModel()
+        })
     }.flowOn(Dispatchers.IO)
 
 }

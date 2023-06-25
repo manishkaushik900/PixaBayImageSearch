@@ -1,11 +1,13 @@
 package com.pixabay.imagesearch.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.pixabay.imagesearch.data.remote.ImageItem
+import com.pixabay.imagesearch.domain.entities.ImageItem
+import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
+import com.pixabay.imagesearch.domain.mappers.toImageModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-object SamplePixabayResponse : PreviewParameterProvider<ImageItem> {
+object SamplePixabayProvider : PreviewParameterProvider<ImageItem> {
     override val values: Sequence<ImageItem> = sequenceOf(
         ImageItem(
             webformatHeight = 426,
@@ -45,10 +47,10 @@ object SamplePixabayResponse : PreviewParameterProvider<ImageItem> {
         )
     )
 
-    fun returnPixabayResponse(): Flow<List<ImageItem>> {
-        return flowOf(values.toList())
+    fun returnPixabayResponse(): Flow<List<MappedImageItemModel>> {
+        return flowOf(values.toList().map { imageItem -> imageItem.toImageModel() })
     }
-    fun returnPixabayMalformedResponse(): Flow<List<ImageItem>> {
+    fun returnPixabayMalformedResponse(): Flow<List<MappedImageItemModel>> {
          throw IllegalStateException("Empty product list")
     }
 }

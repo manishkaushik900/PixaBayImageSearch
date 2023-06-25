@@ -1,6 +1,6 @@
 package com.pixabay.imagesearch.domain.repositories
 
-import com.pixabay.imagesearch.data.remote.ImageItem
+import com.pixabay.imagesearch.domain.entities.ImageItem
 
 interface ImageSearchRepository {
 

@@ -36,32 +36,33 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pixabay.imagesearch.R
-import com.pixabay.imagesearch.data.remote.ImageItem
+import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
+import com.pixabay.imagesearch.domain.mappers.toImageModel
 import com.pixabay.imagesearch.ui.commons.dummyImageItem
 import com.pixabay.imagesearch.ui.commons.ImageDownloader
 
 
 
 @Composable
-fun SearchImageDetails(result: ImageItem, onBackClicked: () -> Unit) {
+fun ImageDetailScreen(result: MappedImageItemModel, onBackClicked: () -> Unit) {
     val downloadManager = ImageDownloader(LocalContext.current)
 
-    DetailContent(
+    DetailScreenContent(
         modifier = Modifier.fillMaxSize(),
         item = result,
-        onBackClicked = onBackClicked,
-        onDownloadClicked = { imageUrl ->
+        onBackBtnClicked = onBackClicked,
+        onDownloadBtnClicked = { imageUrl ->
             downloadManager.downloadFile(imageUrl)
         }
     )
 }
 
 @Composable
-fun DetailContent(
+fun DetailScreenContent(
     modifier: Modifier = Modifier,
-    item: ImageItem,
-    onBackClicked: () -> Unit,
-    onDownloadClicked: (String) -> Unit
+    item: MappedImageItemModel,
+    onBackBtnClicked: () -> Unit,
+    onDownloadBtnClicked: (String) -> Unit
 ) {
 
     Surface(modifier = modifier) {
@@ -71,8 +72,7 @@ fun DetailContent(
             model = ImageRequest.Builder(LocalContext.current).data(item.largeImageURL)
                 .crossfade(true).build(),
             contentDescription = item.user,
-            contentScale = ContentScale.Crop/*,
-            placeholder = painterResource(id = R.drawable.sample)*/
+            contentScale = ContentScale.Crop
         )
 
         Column(
@@ -80,7 +80,7 @@ fun DetailContent(
                 .fillMaxSize()
         ) {
             BackButton(
-                onBackClicked = onBackClicked
+                onBackClicked = onBackBtnClicked
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -91,7 +91,7 @@ fun DetailContent(
                     .fillMaxWidth()
                     .background(color),
                 item = item,
-                onDownloadClicked = onDownloadClicked
+                onDownloadClicked = onDownloadBtnClicked
             )
         }
     }
@@ -119,7 +119,7 @@ fun BackButton(
 @Composable
 fun DetailBottomCard(
     modifier: Modifier = Modifier,
-    item: ImageItem,
+    item: MappedImageItemModel,
     onDownloadClicked: (String) -> Unit
 ) {
 
@@ -133,7 +133,7 @@ fun DetailBottomCard(
             modifier = Modifier.padding(8.dp),
             badge = {
                 Badge {
-                    val badgeNumber = item.likes.toString()
+                    val badgeNumber = item.likes
                     Text(badgeNumber)
                 }
             }) {
@@ -150,7 +150,7 @@ fun DetailBottomCard(
             modifier = Modifier.padding(8.dp),
             badge = {
                 Badge {
-                    val badgeNumber = item.comments.toString()
+                    val badgeNumber = item.comments
                     Text(
                         badgeNumber,
                         modifier = Modifier.semantics {
@@ -172,7 +172,7 @@ fun DetailBottomCard(
             modifier = Modifier.padding(8.dp),
             badge = {
                 Badge {
-                    val badgeNumber = item.views.toString()
+                    val badgeNumber = item.views
                     Text(
                         badgeNumber,
                         modifier = Modifier.semantics {
@@ -214,7 +214,7 @@ fun DetailBottomCard(
 fun SearchScreenPreview() {
     MaterialTheme {
         Surface {
-            SearchImageDetails(dummyImageItem) {}
+            ImageDetailScreen(dummyImageItem.toImageModel()) {}
         }
     }
 }

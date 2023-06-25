@@ -1,7 +1,7 @@
 package com.pixabay.imagesearch.ui
 
 import com.google.common.truth.Truth.assertThat
-import com.pixabay.imagesearch.data.SamplePixabayResponse
+import com.pixabay.imagesearch.data.SamplePixabayProvider
 import com.pixabay.imagesearch.domain.usecases.ImageSearchUseCase
 import com.pixabay.imagesearch.ui.searchImage.SearchImageEvent
 import com.pixabay.imagesearch.ui.searchImage.ImageSearchViewModel
@@ -86,7 +86,7 @@ class ImageSearchViewModelTest {
 
     @Test
     fun `SHOULD produce SUCESS state`() = runTest {
-        whenever(useCase.execute("apple")).thenReturn(SamplePixabayResponse.returnPixabayResponse())
+        whenever(useCase.execute("apple")).thenReturn(SamplePixabayProvider.returnPixabayResponse())
         val event = SearchImageEvent.InitiateSearch("apple")
         viewModel.handleEvent(event)
         advanceUntilIdle()

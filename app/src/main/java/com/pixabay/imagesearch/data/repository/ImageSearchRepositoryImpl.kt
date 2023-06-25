@@ -1,6 +1,6 @@
 package com.pixabay.imagesearch.data.repository
 
-import com.pixabay.imagesearch.data.remote.ImageItem
+import com.pixabay.imagesearch.domain.entities.ImageItem
 import com.pixabay.imagesearch.domain.repositories.ImageSearchRepository
 import javax.inject.Inject
 

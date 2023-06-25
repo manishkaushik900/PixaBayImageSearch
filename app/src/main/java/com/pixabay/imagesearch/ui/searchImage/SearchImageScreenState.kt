@@ -1,13 +1,13 @@
 package com.pixabay.imagesearch.ui.searchImage
 
-import com.pixabay.imagesearch.data.remote.ImageItem
+import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
 
 
 data class SearchImageState(
 
     val isLoading: Boolean = false,
     val error: String? = null,
-    val success: List<ImageItem> = emptyList(),
+    val success: List<MappedImageItemModel> = emptyList(),
     val query: String? = null/*,
     val currentImageNode: ImageItem? = null*/
 )

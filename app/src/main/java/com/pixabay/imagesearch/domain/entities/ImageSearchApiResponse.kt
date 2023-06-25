@@ -1,4 +1,4 @@
-package com.pixabay.imagesearch.data.remote
+package com.pixabay.imagesearch.domain.entities
 
 import android.os.Parcelable
 import com.squareup.moshi.Json

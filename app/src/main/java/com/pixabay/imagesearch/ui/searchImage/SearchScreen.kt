@@ -44,16 +44,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pixabay.imagesearch.R
-import com.pixabay.imagesearch.data.remote.ImageItem
+import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
 import com.pixabay.imagesearch.ui.commons.AnimatedShimmer
+import com.pixabay.imagesearch.ui.searchImage.ImageSearchViewModel
 import com.pixabay.imagesearch.ui.searchImage.SearchImageEvent
 import com.pixabay.imagesearch.ui.searchImage.SearchImageState
-import com.pixabay.imagesearch.ui.searchImage.ImageSearchViewModel
-
 
 
 @Composable
-fun SearchScreen(onImageClicked: (item: ImageItem) -> Unit) {
+fun SearchScreen(onImageClicked: (item: MappedImageItemModel) -> Unit) {
     val viewModel: ImageSearchViewModel = hiltViewModel()
 
     ScreenScreenContent(
@@ -65,11 +64,20 @@ fun SearchScreen(onImageClicked: (item: ImageItem) -> Unit) {
 }
 
 @Composable
+fun LoadingComposable() {
+    Column {
+        repeat(7) {
+            AnimatedShimmer()
+        }
+    }
+}
+
+@Composable
 fun ScreenScreenContent(
     modifier: Modifier = Modifier,
     uiState: SearchImageState,
     handleEvent: (event: SearchImageEvent) -> Unit,
-    onImageItemClicked: (item: ImageItem) -> Unit
+    onImageItemClicked: (item: MappedImageItemModel) -> Unit
 ) {
 
     Surface(
@@ -78,17 +86,12 @@ fun ScreenScreenContent(
     ) {
 
         if (uiState.isLoading) {
-            Column {
-                repeat(7) {
-                    AnimatedShimmer()
-                }
-            }
-
+            LoadingComposable()
         } else {
 
             Column(modifier = modifier) {
 
-                SearchInput(
+                SearchFieldComposable(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
@@ -119,7 +122,7 @@ fun ScreenScreenContent(
                     modifier = Modifier.padding(10.dp)
                 ) {
                     items(uiState.success.size) {
-                        ImageCard(
+                        GridImageItemCard(
                             modifier = Modifier.fillMaxWidth(),
                             item = uiState.success[it],
                             onNextScreen = onImageItemClicked
@@ -131,8 +134,8 @@ fun ScreenScreenContent(
 
 
             uiState.error?.let { error ->
-                AuthenticationErrorDialog(
-                    error = error,
+                ErrorDialogComposable(
+                    errorMsg = error,
                     dismissError = {
                         handleEvent(
                             SearchImageEvent.ErrorDismissed
@@ -140,22 +143,16 @@ fun ScreenScreenContent(
                     }
                 )
             }
-
-
         }
-
-
     }
-
 }
 
 @Composable
-fun AuthenticationErrorDialog(
+fun ErrorDialogComposable(
     modifier: Modifier = Modifier,
-    error: String,
+    errorMsg: String,
     dismissError: () -> Unit
 ) {
-
     AlertDialog(
         modifier = modifier.testTag(""),
         onDismissRequest = { dismissError() },
@@ -178,7 +175,7 @@ fun AuthenticationErrorDialog(
         },
         text = {
             Text(
-                text = error
+                text = errorMsg
             )
         }
 
@@ -189,10 +186,9 @@ fun AuthenticationErrorDialog(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ImageCard(
-    item: ImageItem, modifier: Modifier = Modifier, onNextScreen: (item: ImageItem) -> Unit
+private fun GridImageItemCard(
+    item: MappedImageItemModel, modifier: Modifier = Modifier, onNextScreen: (item: MappedImageItemModel) -> Unit
 ) {
-//    val context = LocalContext.current
     Card(modifier = modifier
         .fillMaxWidth()
         .padding(horizontal = 4.dp, vertical = 4.dp),
@@ -200,7 +196,6 @@ private fun ImageCard(
         shape = RoundedCornerShape(8.dp),
         onClick = {
             onNextScreen(item)
-//            Toast.makeText(context, item.user, Toast.LENGTH_SHORT).show()
         }) {
         Box(modifier = Modifier.height(200.dp)) {
             AsyncImage(
@@ -233,11 +228,9 @@ private fun ImageCard(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = item.user ?: "",
+                        text = item.user,
                         style = TextStyle(color = Color.White, fontSize = 16.sp)
                     )
-//                        Text(text = "SemicolonSpace 2")
-//                        Text(text = "SemicolonSpace 3")
                 }
             }
 
@@ -249,7 +242,7 @@ private fun ImageCard(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchInput(
+fun SearchFieldComposable(
     modifier: Modifier = Modifier,
     query: String?,
     onSearchChange: (query: String) -> Unit,

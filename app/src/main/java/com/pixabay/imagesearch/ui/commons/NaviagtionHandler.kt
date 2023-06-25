@@ -5,8 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.pixabay.imagesearch.data.remote.ImageItem
-import com.pixabay.imagesearch.ui.searchImage.SearchImageDetails
+import com.pixabay.imagesearch.domain.entities.ImageItem
+import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
+import com.pixabay.imagesearch.ui.searchImage.ImageDetailScreen
 
 
 @Composable
@@ -25,8 +26,8 @@ fun NavigationBuilder(navController: NavHostController) {
 
         composable(AppScreens.ImageDetail.name) {
             val result =
-                navController.previousBackStackEntry?.savedStateHandle?.get<ImageItem>("imageItem")
-            result?.let { it1 -> SearchImageDetails(it1){
+                navController.previousBackStackEntry?.savedStateHandle?.get<MappedImageItemModel>("imageItem")
+            result?.let { it1 -> ImageDetailScreen(it1){
                 navController.navigateUp()
             } }
            /*

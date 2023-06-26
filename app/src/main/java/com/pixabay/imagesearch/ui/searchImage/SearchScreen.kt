@@ -73,7 +73,7 @@ fun LoadingComposable() {
 }
 
 @Composable
-fun ScreenScreenContent(
+internal fun ScreenScreenContent(
     modifier: Modifier = Modifier,
     uiState: SearchImageState,
     handleEvent: (event: SearchImageEvent) -> Unit,

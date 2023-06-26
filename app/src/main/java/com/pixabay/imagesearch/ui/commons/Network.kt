@@ -6,7 +6,7 @@ import android.net.NetworkCapabilities
 import javax.inject.Inject
 
 
-class Network @Inject constructor(private val context: Context) : NetworkConnectivity {
+ class Network @Inject constructor(private val context: Context) : NetworkConnectivity {
     override fun isNetworkAvailable(): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -20,6 +20,6 @@ class Network @Inject constructor(private val context: Context) : NetworkConnect
     }
 }
 
-interface NetworkConnectivity {
+ interface NetworkConnectivity {
     fun isNetworkAvailable(): Boolean
 }

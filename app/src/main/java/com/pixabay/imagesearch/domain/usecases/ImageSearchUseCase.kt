@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /*Image Search use case*/
-class ImageSearchUseCase @Inject constructor(
+internal class ImageSearchUseCase @Inject constructor(
     private val repository: ImageSearchRepository
 ) {
 

@@ -12,7 +12,7 @@ interface Downloader {
     fun downloadFile(url: String): Long
 
 }
-class ImageDownloader(private val context: Context) : Downloader {
+internal class ImageDownloader(private val context: Context) : Downloader {
 
     private val downloadManager = context.getSystemService(DownloadManager::class.java)
 

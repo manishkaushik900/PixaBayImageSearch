@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ImageSearchViewModel @Inject constructor(
+internal class ImageSearchViewModel @Inject constructor(
     private val useCase: ImageSearchUseCase
 ) : ViewModel() {
 

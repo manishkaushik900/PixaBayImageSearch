@@ -44,7 +44,7 @@ import com.pixabay.imagesearch.ui.commons.ImageDownloader
 
 
 @Composable
-fun ImageDetailScreen(result: MappedImageItemModel, onBackClicked: () -> Unit) {
+internal fun ImageDetailScreen(result: MappedImageItemModel, onBackClicked: () -> Unit) {
     val downloadManager = ImageDownloader(LocalContext.current)
 
     DetailScreenContent(
@@ -58,7 +58,7 @@ fun ImageDetailScreen(result: MappedImageItemModel, onBackClicked: () -> Unit) {
 }
 
 @Composable
-fun DetailScreenContent(
+internal fun DetailScreenContent(
     modifier: Modifier = Modifier,
     item: MappedImageItemModel,
     onBackBtnClicked: () -> Unit,

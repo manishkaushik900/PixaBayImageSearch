@@ -22,7 +22,7 @@ import org.mockito.kotlin.whenever
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
-class ImageSearchViewModelTest {
+internal class ImageSearchViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()
 
@@ -86,7 +86,7 @@ class ImageSearchViewModelTest {
 
     @Test
     fun `SHOULD produce SUCESS state`() = runTest {
-        whenever(useCase.execute("apple")).thenReturn(SamplePixabayProvider.returnPixabayResponse())
+        whenever(useCase.execute("apple")).thenReturn(SamplePixabayProvider.returnPixabayMappedResponse())
         val event = SearchImageEvent.InitiateSearch("apple")
         viewModel.handleEvent(event)
         advanceUntilIdle()

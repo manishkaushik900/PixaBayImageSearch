@@ -3,7 +3,7 @@ package com.pixabay.imagesearch.ui.searchImage
 import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
 
 
-data class SearchImageState(
+internal data class SearchImageState(
 
     val isLoading: Boolean = false,
     val error: String? = null,
@@ -12,7 +12,7 @@ data class SearchImageState(
     val currentImageNode: ImageItem? = null*/
 )
 
-sealed class SearchImageEvent {
+internal sealed class SearchImageEvent {
 
     object ErrorDismissed : SearchImageEvent()
 

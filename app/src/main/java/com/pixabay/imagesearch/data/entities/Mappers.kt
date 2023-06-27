@@ -1,8 +1,6 @@
-package com.pixabay.imagesearch.data
+package com.pixabay.imagesearch.data.entities
 
-import android.os.Parcelable
-import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
-import kotlinx.android.parcel.Parcelize
+import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 
 
 fun ImageItem.toImageModel() = MappedImageItemModel(

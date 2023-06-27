@@ -1,6 +1,6 @@
 package com.pixabay.imagesearch.domain.repositories
 
-import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
+import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 
 interface ImageSearchRepository {
 

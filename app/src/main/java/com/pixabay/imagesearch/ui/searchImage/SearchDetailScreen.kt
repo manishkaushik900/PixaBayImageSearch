@@ -36,11 +36,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pixabay.imagesearch.R
-import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
-import com.pixabay.imagesearch.domain.mappers.toImageModel
-import com.pixabay.imagesearch.ui.commons.dummyImageItem
+import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 import com.pixabay.imagesearch.ui.commons.ImageDownloader
-
 
 
 @Composable
@@ -214,7 +211,7 @@ fun DetailBottomCard(
 fun SearchScreenPreview() {
     MaterialTheme {
         Surface {
-            ImageDetailScreen(dummyImageItem.toImageModel()) {}
+//            ImageDetailScreen(dummyImageItem.toImageModel()) {}
         }
     }
 }

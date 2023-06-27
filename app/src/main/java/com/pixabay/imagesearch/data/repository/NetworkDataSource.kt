@@ -1,7 +1,7 @@
 package com.pixabay.imagesearch.data.repository
 
 import com.pixabay.imagesearch.data.remote.ApiService
-import com.pixabay.imagesearch.data.PixabayResponse
+import com.pixabay.imagesearch.data.entities.PixabayResponse
 import javax.inject.Inject
 
 /*Network data source to fetch data from server using api service client*/

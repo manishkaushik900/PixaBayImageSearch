@@ -1,8 +1,10 @@
 package com.pixabay.imagesearch.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
-import com.pixabay.imagesearch.domain.mappers.toImageModel
+import com.pixabay.imagesearch.data.entities.ImageItem
+import com.pixabay.imagesearch.data.entities.PixabayResponse
+import com.pixabay.imagesearch.data.entities.toImageModel
+import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.Flow

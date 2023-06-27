@@ -5,8 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.pixabay.imagesearch.data.ImageItem
-import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
+import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 import com.pixabay.imagesearch.ui.searchImage.ImageDetailScreen
 
 
@@ -54,6 +53,7 @@ enum class AppScreens {
     ImageDetail
 }
 
+/*
 val dummyImageItem = ImageItem(
     webformatHeight = 426,
     imageWidth = 4752,
@@ -70,4 +70,4 @@ val dummyImageItem = ImageItem(
     largeImageURL = "https://pixabay.com/get/gd633530a25ff1a68c565f37e278c215b78650926392edf43841971bfc710c6dd449b49794fd4d786d7f7e926a6006695_1280.jpg",
     views = 944821,
     likes = 1889
-)
+)*/

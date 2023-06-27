@@ -1,6 +1,6 @@
 package com.pixabay.imagesearch.ui.searchImage
 
-import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
+import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 
 
 internal data class SearchImageState(

@@ -1,4 +1,4 @@
-package com.pixabay.imagesearch.domain.mappers
+package com.pixabay.imagesearch.domain.entities
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

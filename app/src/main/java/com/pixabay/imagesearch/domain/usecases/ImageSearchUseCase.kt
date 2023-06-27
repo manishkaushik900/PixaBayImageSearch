@@ -1,6 +1,6 @@
 package com.pixabay.imagesearch.domain.usecases
 
-import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
+import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 import com.pixabay.imagesearch.domain.repositories.ImageSearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

@@ -44,7 +44,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pixabay.imagesearch.R
-import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
+import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 import com.pixabay.imagesearch.ui.commons.AnimatedShimmer
 import com.pixabay.imagesearch.ui.searchImage.ImageSearchViewModel
 import com.pixabay.imagesearch.ui.searchImage.SearchImageEvent

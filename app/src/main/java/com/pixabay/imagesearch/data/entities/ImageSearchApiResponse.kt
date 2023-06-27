@@ -1,4 +1,4 @@
-package com.pixabay.imagesearch.data
+package com.pixabay.imagesearch.data.entities
 
 import android.os.Parcelable
 import com.squareup.moshi.Json
@@ -6,13 +6,13 @@ import kotlinx.android.parcel.Parcelize
 
 data class PixabayResponse(
 
-    @Json(name="hits")
+	@Json(name="hits")
 	val hits: List<ImageItem> = listOf(),
 
-    @Json(name="total")
+	@Json(name="total")
 	val total: Int? = null,
 
-    @Json(name="totalHits")
+	@Json(name="totalHits")
 	val totalHits: Int? = null
 )
 

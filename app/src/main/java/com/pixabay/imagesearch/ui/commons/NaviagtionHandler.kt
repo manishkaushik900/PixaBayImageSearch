@@ -2,6 +2,7 @@ package com.pixabay.imagesearch.ui.commons
 
 import SearchScreen
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,33 +13,35 @@ import com.pixabay.imagesearch.ui.searchImage.ImageDetailScreen
 @Composable
 fun NavigationBuilder(navController: NavHostController) {
 
-    NavHost(navController = navController, startDestination = AppScreens.Start.name) {
-        composable(AppScreens.Start.name) {
+    NavHost(navController = navController, startDestination = Destinations.Home.path) {
+        composable(Destinations.Home.path) {
             SearchScreen(onImageClicked = { imageItem ->
                 navController.currentBackStackEntry?.savedStateHandle?.set(
                     key = "imageItem",
                     value = imageItem
                 )
-                navController.navigate(AppScreens.ImageDetail.name)
+                navController.navigate(Destinations.Details.path)
             })
         }
 
-        composable(AppScreens.ImageDetail.name) {
+        composable(Destinations.Details.path) {
             val result =
                 navController.previousBackStackEntry?.savedStateHandle?.get<MappedImageItemModel>("imageItem")
-            result?.let { it1 -> ImageDetailScreen(it1){
-                navController.navigateUp()
-            } }
-           /*
-            val parentEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(AppScreens.Start.name)
-            }
-           val parentViewModel = hiltViewModel<ImageSearchViewModel>(parentEntry)
-           parentViewModel.uiState.collectAsState().value.currentImageNode?.let {
-                SearchImageDetails(it){
+            result?.let { it1 ->
+                ImageDetailScreen(it1) {
                     navController.navigateUp()
                 }
-            }*/
+            }
+            /*
+             val parentEntry = remember(backStackEntry) {
+                 navController.getBackStackEntry(AppScreens.Start.name)
+             }
+            val parentViewModel = hiltViewModel<ImageSearchViewModel>(parentEntry)
+            parentViewModel.uiState.collectAsState().value.currentImageNode?.let {
+                 SearchImageDetails(it){
+                     navController.navigateUp()
+                 }
+             }*/
 
 
         }
@@ -47,11 +50,17 @@ fun NavigationBuilder(navController: NavHostController) {
 
 }
 
+sealed class Destinations(val path: String, val icon: ImageVector? = null) {
 
-enum class AppScreens {
+    object Home : Destinations("home")
+    object Details : Destinations("details")
+
+}
+
+/*enum class AppScreens {
     Start,
     ImageDetail
-}
+}*/
 
 /*
 val dummyImageItem = ImageItem(

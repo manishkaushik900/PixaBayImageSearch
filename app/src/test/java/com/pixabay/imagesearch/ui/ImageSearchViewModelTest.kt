@@ -86,7 +86,7 @@ internal class ImageSearchViewModelTest {
 
     @Test
     fun `SHOULD produce SUCESS state`() = runTest {
-        whenever(useCase.execute("apple")).thenReturn(SamplePixabayProvider.returnPixabayMappedResponse())
+        whenever(useCase.execute("apple")).thenReturn(SamplePixabayProvider.returnPixabayResponseFlow())
         val event = SearchImageEvent.InitiateSearch("apple")
         viewModel.handleEvent(event)
         advanceUntilIdle()

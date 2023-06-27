@@ -50,8 +50,11 @@ object SamplePixabayProvider : PreviewParameterProvider<ImageItem> {
         )
     )
 
-    fun returnPixabayMappedResponse(): Flow<List<MappedImageItemModel>> {
+    fun returnPixabayResponseFlow(): Flow<List<MappedImageItemModel>> {
         return flowOf(values.toList().map { imageItem -> imageItem.toImageModel() })
+    }
+    fun returnMappedResponse(): List<MappedImageItemModel> {
+        return values.toList().map { imageItem -> imageItem.toImageModel() }
     }
 
     fun returnPixabayResponse(): List<ImageItem> {

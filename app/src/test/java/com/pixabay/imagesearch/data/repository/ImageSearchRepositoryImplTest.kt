@@ -3,6 +3,7 @@ package com.pixabay.imagesearch.data.repository
 import com.google.common.truth.Truth
 import com.pixabay.imagesearch.data.SamplePixabayProvider
 import com.pixabay.imagesearch.data.SamplePixabayProvider.convertJsonToModel
+import com.pixabay.imagesearch.data.entities.toImageModel
 import com.pixabay.imagesearch.data.remote.ApiService
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
@@ -57,7 +58,7 @@ class ImageSearchRepositoryImplTest {
         val response = repository.fetchSearchData("apple")
         Truth.assertThat(response).isNotNull()
 
-        val expected = convertJsonToModel(SamplePixabayProvider.jsonResponse).hits
+        val expected = convertJsonToModel(SamplePixabayProvider.jsonResponse).hits.map { it.toImageModel() }
         Truth.assertThat(response).isEqualTo(expected)
     }
 

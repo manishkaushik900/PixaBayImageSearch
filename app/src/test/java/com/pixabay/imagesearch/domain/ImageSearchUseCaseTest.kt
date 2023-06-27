@@ -49,12 +49,12 @@ internal class ImageSearchUseCaseTest {
 
     @Test
     fun `SHOULD get list of pixabay image list data WHEN fetchSearchData called`() = runTest {
-        whenever(repository.fetchSearchData(any())).doSuspendableAnswer { SamplePixabayProvider.returnPixabayResponse() }
+        whenever(repository.fetchSearchData(any())).doSuspendableAnswer { SamplePixabayProvider.returnMappedResponse() }
 
         val useCase = ImageSearchUseCase(repository)
         val actual = useCase.execute("apple").first()
         advanceUntilIdle()
-        val expected = SamplePixabayProvider.returnPixabayMappedResponse().first()
+        val expected = SamplePixabayProvider.returnPixabayResponseFlow().first()
         assertThat(actual).isEqualTo(expected)
     }
 

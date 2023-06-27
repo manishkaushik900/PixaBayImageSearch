@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.pixabay.imagesearch.domain.entities.ImageItem
+import com.pixabay.imagesearch.data.ImageItem
 import com.pixabay.imagesearch.domain.mappers.MappedImageItemModel
 import com.pixabay.imagesearch.ui.searchImage.ImageDetailScreen
 

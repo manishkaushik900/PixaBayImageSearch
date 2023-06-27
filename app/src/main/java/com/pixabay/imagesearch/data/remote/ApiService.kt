@@ -1,6 +1,6 @@
 package com.pixabay.imagesearch.data.remote
 
-import com.pixabay.imagesearch.domain.entities.PixabayResponse
+import com.pixabay.imagesearch.data.PixabayResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

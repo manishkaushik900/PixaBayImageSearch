@@ -62,7 +62,7 @@ The Android Image Search App is built using the following technologies:
 
 To run the Android Image Search App on your local machine, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your/repo.git`
+1. Clone the repository: `git clone https://github.com/manishkaushik900/PixaBayImageSearch.git`
 2. Open the project in Android Studio.
 3. Build and run the app on an emulator or physical device.
 

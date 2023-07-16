@@ -2,7 +2,7 @@ package com.pixabay.imagesearch.data.repository
 
 import com.pixabay.imagesearch.data.entities.toImageModel
 import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
-import com.pixabay.imagesearch.domain.repositories.ImageSearchRepository
+import com.pixabay.imagesearch.domain.entities.repositories.ImageSearchRepository
 import javax.inject.Inject
 
 class ImageSearchRepositoryImpl @Inject constructor(

@@ -1,7 +1,7 @@
 package com.pixabay.imagesearch.di
 
 import com.pixabay.imagesearch.data.repository.ImageSearchRepositoryImpl
-import com.pixabay.imagesearch.domain.repositories.ImageSearchRepository
+import com.pixabay.imagesearch.domain.entities.repositories.ImageSearchRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

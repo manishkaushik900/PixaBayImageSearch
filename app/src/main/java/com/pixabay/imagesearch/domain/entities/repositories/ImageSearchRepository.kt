@@ -1,4 +1,4 @@
-package com.pixabay.imagesearch.domain.repositories
+package com.pixabay.imagesearch.domain.entities.repositories
 
 import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 

@@ -1,6 +1,7 @@
 package com.pixabay.imagesearch.ui.commons
 
 import SearchScreen
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
@@ -11,7 +12,7 @@ import com.pixabay.imagesearch.ui.searchImage.ImageDetailScreen
 
 
 @Composable
-fun NavigationBuilder(navController: NavHostController) {
+fun NavigationBuilder(navController: NavHostController, windowSize: WindowWidthSizeClass,) {
 
     NavHost(navController = navController, startDestination = Destinations.Home.path) {
         composable(Destinations.Home.path) {

@@ -41,7 +41,7 @@ import com.pixabay.imagesearch.ui.commons.ImageDownloader
 
 
 @Composable
-internal fun ImageDetailScreen(result: MappedImageItemModel, onBackClicked: () -> Unit) {
+internal fun ImageDetailScreen(isTwoPane:Int = 0, result: MappedImageItemModel, onBackClicked: () -> Unit) {
     val downloadManager = ImageDownloader(LocalContext.current)
 
     DetailScreenContent(
@@ -50,7 +50,8 @@ internal fun ImageDetailScreen(result: MappedImageItemModel, onBackClicked: () -
         onBackBtnClicked = onBackClicked,
         onDownloadBtnClicked = { imageUrl ->
             downloadManager.downloadFile(imageUrl)
-        }
+        },
+        isTwoPane
     )
 }
 
@@ -59,7 +60,8 @@ internal fun DetailScreenContent(
     modifier: Modifier = Modifier,
     item: MappedImageItemModel,
     onBackBtnClicked: () -> Unit,
-    onDownloadBtnClicked: (String) -> Unit
+    onDownloadBtnClicked: (String) -> Unit,
+    isTwoPane: Int
 ) {
 
     Surface(modifier = modifier) {
@@ -69,16 +71,20 @@ internal fun DetailScreenContent(
             model = ImageRequest.Builder(LocalContext.current).data(item.largeImageURL)
                 .crossfade(true).build(),
             contentDescription = item.user,
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Fit
         )
 
         Column(
             Modifier
                 .fillMaxSize()
         ) {
-            BackButton(
-                onBackClicked = onBackBtnClicked
-            )
+
+            if(isTwoPane==0){
+                BackButton(
+                    onBackClicked = onBackBtnClicked
+                )
+            }
+
 
             Spacer(modifier = Modifier.weight(1f))
 

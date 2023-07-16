@@ -2,6 +2,7 @@ package com.pixabay.imagesearch.ui.searchImage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 import com.pixabay.imagesearch.domain.usecases.ImageSearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class ImageSearchViewModel @Inject constructor(
+class ImageSearchViewModel @Inject constructor(
     private val useCase: ImageSearchUseCase
 ) : ViewModel() {
 
@@ -33,12 +34,23 @@ internal class ImageSearchViewModel @Inject constructor(
             is SearchImageEvent.OnError -> {
                 onError(imageSearchEvent.error)
             }
+
+            is SearchImageEvent.UpdateCurrentItem -> {
+                updateCurrentImage(imageSearchEvent.item)
+            }
         }
+    }
+
+    private fun updateCurrentImage(item: MappedImageItemModel) {
+        uiState.value = uiState.value.copy(
+            currentImageNode = item
+        )
     }
 
     private fun dismissError() {
         uiState.value = uiState.value.copy(
-            error = null
+            error = null,
+            currentImageNode = null
         )
 
     }
@@ -56,7 +68,8 @@ internal class ImageSearchViewModel @Inject constructor(
             }.collect { result ->
                 uiState.value = uiState.value.copy(
                     isLoading = false,
-                    success = result
+                    success = result,
+                    currentImageNode = null
                 )
             }
         }
@@ -66,11 +79,13 @@ internal class ImageSearchViewModel @Inject constructor(
         if (query.isEmpty()) {
             uiState.value = uiState.value.copy(
                 success = emptyList(),
-                query = null
+                query = null,
+                currentImageNode = null
             )
         } else {
             uiState.value = uiState.value.copy(
-                query = query
+                query = query,
+                currentImageNode = null
             )
         }
     }
@@ -80,7 +95,8 @@ internal class ImageSearchViewModel @Inject constructor(
         uiState.value = uiState.value.copy(
             isLoading = false,
             error = error,
-            success = emptyList()
+            success = emptyList(),
+            currentImageNode = null
         )
     }
 

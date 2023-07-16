@@ -40,7 +40,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pixabay.imagesearch.R
@@ -52,8 +51,8 @@ import com.pixabay.imagesearch.ui.searchImage.SearchImageState
 
 
 @Composable
-fun SearchScreen(onImageClicked: (item: MappedImageItemModel) -> Unit) {
-    val viewModel: ImageSearchViewModel = hiltViewModel()
+fun SearchScreen(viewModel: ImageSearchViewModel,onImageClicked: (item: MappedImageItemModel) -> Unit) {
+//    val viewModel: ImageSearchViewModel = hiltViewModel()
 
     ScreenScreenContent(
         modifier = Modifier.fillMaxSize(),
@@ -284,6 +283,6 @@ fun SearchFieldComposable(
 @Composable
 fun SearchScreenPreview() {
     MaterialTheme {
-        SearchScreen(onImageClicked = {})
+//        SearchScreen(onImageClicked = {})
     }
 }

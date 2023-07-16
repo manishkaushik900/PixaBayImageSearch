@@ -6,8 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.navigation.compose.rememberNavController
-import com.pixabay.imagesearch.ui.commons.NavigationBuilder
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import com.pixabay.imagesearch.ui.commons.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,10 +19,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                val navController = rememberNavController()
+//                val navController = rememberNavController()
                 val windowSize = calculateWindowSizeClass(this)
-                NavigationBuilder(navController, windowSize = windowSize.widthSizeClass)
+//                NavigationBuilder(navController)
+                Navigation(windowSize.widthSizeClass)
             }
         }
+    }
+}
+
+
+
+
+@Preview(showBackground = true)
+@Composable
+fun AppPreview() {
+    MaterialTheme {
+       /* NavigationBuilder(
+            navController = rememberNavController(),
+            navController1 = navController
+        )*/
     }
 }

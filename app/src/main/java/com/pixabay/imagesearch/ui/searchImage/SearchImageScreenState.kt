@@ -3,16 +3,16 @@ package com.pixabay.imagesearch.ui.searchImage
 import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 
 
-internal data class SearchImageState(
+data class SearchImageState(
 
     val isLoading: Boolean = false,
     val error: String? = null,
     val success: List<MappedImageItemModel> = emptyList(),
-    val query: String? = null/*,
-    val currentImageNode: ImageItem? = null*/
+    val query: String? = null,
+    val currentImageNode: MappedImageItemModel? = null
 )
 
-internal sealed class SearchImageEvent {
+sealed class SearchImageEvent {
 
     object ErrorDismissed : SearchImageEvent()
 
@@ -22,6 +22,9 @@ internal sealed class SearchImageEvent {
         SearchImageEvent()
 
     class OnError(val error: String) :
+        SearchImageEvent()
+
+    class UpdateCurrentItem(val item: MappedImageItemModel) :
         SearchImageEvent()
 
    /* class UpdateCurrentImageNode(val imageItem: ImageItem) :

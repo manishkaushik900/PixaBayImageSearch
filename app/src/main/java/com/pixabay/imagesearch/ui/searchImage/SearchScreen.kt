@@ -51,7 +51,10 @@ import com.pixabay.imagesearch.ui.searchImage.SearchImageState
 
 
 @Composable
-fun SearchScreen(viewModel: ImageSearchViewModel,onImageClicked: (item: MappedImageItemModel) -> Unit) {
+fun SearchScreen(
+    viewModel: ImageSearchViewModel,
+    onImageClicked: (item: MappedImageItemModel) -> Unit
+) {
 //    val viewModel: ImageSearchViewModel = hiltViewModel()
 
     ScreenScreenContent(
@@ -83,35 +86,33 @@ internal fun ScreenScreenContent(
         modifier = modifier,
         color = MaterialTheme.colorScheme.background
     ) {
+        Column(modifier = modifier) {
 
-        if (uiState.isLoading) {
-            LoadingComposable()
-        } else {
-
-            Column(modifier = modifier) {
-
-                SearchFieldComposable(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = 16.dp,
-                            end = 16.dp, top = 8.dp, bottom = 4.dp
-                        ),
-                    query = uiState.query,
-                    onSearchChange = { queryChanged ->
-                        handleEvent(SearchImageEvent.QueryChanged(queryChanged))
-                    },
-                    onSearchClicked = {
-                        handleEvent(
-                            SearchImageEvent.InitiateSearch(
-                                uiState.query ?: ""
-                            )
+            SearchFieldComposable(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp, top = 8.dp, bottom = 4.dp
+                    ),
+                query = uiState.query,
+                onSearchChange = { queryChanged ->
+                    handleEvent(SearchImageEvent.QueryChanged(queryChanged))
+                },
+                onSearchClicked = {
+                    handleEvent(
+                        SearchImageEvent.InitiateSearch(
+                            uiState.query ?: ""
                         )
-                    }
-                )
+                    )
+                }
+            )
 
-                Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
+            if (uiState.isLoading) {
+                LoadingComposable()
+            } else {
                 LazyVerticalGrid(
                     // on below line we are setting the
                     // column count for our grid view.
@@ -186,7 +187,9 @@ fun ErrorDialogComposable(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GridImageItemCard(
-    item: MappedImageItemModel, modifier: Modifier = Modifier, onNextScreen: (item: MappedImageItemModel) -> Unit
+    item: MappedImageItemModel,
+    modifier: Modifier = Modifier,
+    onNextScreen: (item: MappedImageItemModel) -> Unit
 ) {
     Card(modifier = modifier
         .fillMaxWidth()
@@ -254,7 +257,8 @@ fun SearchFieldComposable(
             imeAction = ImeAction.Search,
         ), keyboardActions = KeyboardActions(onSearch = {
             onSearchClicked()
-        }), value = query ?: "",
+        }),
+        value = query ?: "",
         onValueChange = {
             onSearchChange(it)
 
@@ -275,7 +279,8 @@ fun SearchFieldComposable(
                 },
                 imageVector = Icons.Default.Cancel, contentDescription = null
             )
-        }, singleLine = true
+        }, singleLine = true,
+        maxLines = 1
     )
 }
 

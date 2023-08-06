@@ -5,8 +5,17 @@ import androidx.lifecycle.viewModelScope
 import com.pixabay.imagesearch.domain.entities.MappedImageItemModel
 import com.pixabay.imagesearch.domain.usecases.ImageSearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,6 +38,7 @@ class ImageSearchViewModel @Inject constructor(
 
             is SearchImageEvent.QueryChanged -> {
                 updateQuery(imageSearchEvent.query)
+                fetchDataByQuery(imageSearchEvent.query)
             }
 
             is SearchImageEvent.OnError -> {
@@ -90,6 +100,35 @@ class ImageSearchViewModel @Inject constructor(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+    private fun fetchDataByQuery(query: String) {
+
+        uiState.value = uiState.value.copy(
+            isLoading = true
+        )
+
+        viewModelScope.launch {
+            flowOf(query)
+                .debounce(300)
+                .filter { query ->
+                    return@filter query.isNotEmpty()
+                }
+                .distinctUntilChanged()
+                .flatMapLatest { query ->
+                    useCase.execute(query).catch { error ->
+                        handleEvent(SearchImageEvent.OnError(error.message.toString()))
+                    }
+                }
+                .flowOn(Dispatchers.Default)
+                .collect {
+                    uiState.value = uiState.value.copy(
+                        isLoading = false,
+                        success = it,
+                        currentImageNode = null
+                    )
+                }
+        }
+    }
 
     private fun onError(error: String) {
         uiState.value = uiState.value.copy(

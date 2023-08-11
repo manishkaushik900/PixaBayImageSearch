@@ -120,6 +120,9 @@ class ImageSearchViewModel @Inject constructor(
                     }
                 }
                 .flowOn(Dispatchers.Default)
+                .catch { error ->
+                    handleEvent(SearchImageEvent.OnError(error.message.toString()))
+                }
                 .collect {
                     uiState.value = uiState.value.copy(
                         isLoading = false,
